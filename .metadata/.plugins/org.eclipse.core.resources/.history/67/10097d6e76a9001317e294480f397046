@@ -1,0 +1,16 @@
+package no.morganbp.oblig3;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class MovieActivity extends Activity{
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+	}
+
+	
+	
+}

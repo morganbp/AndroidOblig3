@@ -1,0 +1,9 @@
+package no.morganbp.oblig3;
+
+public class JSONMovieRequest {
+
+	public JSONMovieRequest(){
+		
+	}
+	
+}

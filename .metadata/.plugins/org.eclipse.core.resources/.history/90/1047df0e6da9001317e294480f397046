@@ -1,0 +1,76 @@
+package no.morganbp.oblig3;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	EditText editTextSearch;
+	TextView textViewSearch;
+	Button buttonSearch;
+	
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initGUI();
+    }
+
+	private void initGUI() {
+		editTextSearch = (EditText)findViewById(R.id.etSearch);
+		textViewSearch = (TextView)findViewById(R.id.tvSearchText);
+		buttonSearch = (Button)findViewById(R.id.bSearch);
+		
+		buttonSearch.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				String searchString = editTextSearch.getText().toString();
+				ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+				if(networkInfo != null && networkInfo.isConnected()){
+					JSONMovieRequest movieInfo = new JSONMovieRequest(searchString);
+				}else{
+					textViewSearch.setText("No Internet connection available");
+				}
+				
+			}
+			
+		});
+		
+	}
+
+	
+	
+	public void parseJSON(String jsonString) {
+		
+		try {
+			JSONObject parentObject = new JSONObject(jsonString);
+			String url = parentObject.getString("imdburl");
+			textViewSearch.setText(url);
+		} catch (JSONException e) {
+			textViewSearch.setText("couldn't find movie");
+		}
+		
+	}
+	
+	
+
+
+	
+
+   
+    
+}

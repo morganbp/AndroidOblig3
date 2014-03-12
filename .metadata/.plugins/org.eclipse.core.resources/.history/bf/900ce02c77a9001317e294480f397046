@@ -1,0 +1,39 @@
+package no.morganbp.oblig3;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MovieActivity extends Activity{
+
+	TextView tvTitle, tvURL, tvRating, tvVotes, tvGenres;
+	String title, url;
+	String[] genres;
+	long votes;
+	int year;
+	float ratin;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		bundle = getIntent().getExtras();
+		LinearLayout ll = createGUI();
+		setContentView(ll);
+		
+	}
+
+	private LinearLayout createGUI() {
+		LinearLayout ll = new LinearLayout(this);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		tvTitle = new TextView(this);
+		
+		
+		
+		
+		return ll;
+	}
+
+	
+	
+}

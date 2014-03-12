@@ -1,0 +1,45 @@
+package no.morganbp.oblig3;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MovieActivity extends Activity {
+
+	TextView tvTitle, tvURL, tvRating, tvVotes, tvGenres;
+	String title, url;
+	String[] genres;
+	long votes;
+	int year;
+	float rating;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		collectData();
+		LinearLayout ll = createGUI();
+		setContentView(ll);
+
+	}
+
+	private void collectData() {
+		Bundle bundle = getIntent().getExtras();
+		title = bundle.getString(JSONMovieRequest.tag_title);
+		url = bundle.getString(JSONMovieRequest.tag_url);
+		genres = bundle.getStringArray(JSONMovieRequest.tag_genre);
+		votes = bundle.getLong(JSONMovieRequest.tag_votes);
+		year = bundle.getInt(JSONMovieRequest.tag_year);
+		rating = bundle.getFloat(JSONMovieRequest.tag_rating);
+	}
+
+	private LinearLayout createGUI() {
+		LinearLayout ll = new LinearLayout(this);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		tvTitle = new TextView(this);
+		tvTitle.setText(title + " (" + Integer.toString(year)+")");
+
+		return ll;
+	}
+
+}

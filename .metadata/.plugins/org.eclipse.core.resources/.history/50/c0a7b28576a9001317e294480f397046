@@ -1,0 +1,24 @@
+package no.morganbp.oblig3;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.LinearLayout;
+
+public class MovieActivity extends Activity{
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		LinearLayout ll = createGUI();
+		setContentView(ll);
+		
+	}
+
+	private LinearLayout createGUI() {
+		LinearLayout ll = new LinearLayout();
+		return null;
+	}
+
+	
+	
+}
