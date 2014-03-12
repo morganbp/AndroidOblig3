@@ -1,0 +1,62 @@
+package no.morganbp.oblig3;
+
+
+import android.app.ActionBar;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+
+public class MainActivity extends FragmentActivity {
+
+	public static final String EXTRA_MESSAGE = "no.morganbp.MainActivity";
+	public static boolean loadingData = false;
+
+	ActionBar actionBar;
+
+	SwipeAdapter swAdapter;
+	ViewPager swipePager;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.swipe_view_pager);
+		swAdapter = new SwipeAdapter(getSupportFragmentManager());
+		swipePager = (ViewPager) findViewById(R.id.swipe_pager);
+		swipePager.setAdapter(swAdapter);
+		if(android.os.Build.VERSION.SDK_INT >= 11){
+			actionBar = getActionBar();
+			actionBar.show();
+		}
+		
+	}
+
+	public class SwipeAdapter extends FragmentPagerAdapter {
+		private static final int SIZE = 2;
+
+		public SwipeAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// TODO Auto-generated method stub
+			switch (position) {
+			case 0:
+				return new IMDBMovieFragment();
+			case 1:
+				return new FlagFragment();
+			}
+			return null;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return SIZE;
+		}
+
+	}
+}

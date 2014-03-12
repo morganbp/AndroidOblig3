@@ -1,0 +1,7 @@
+package no.morganbp.oblig3;
+
+import android.support.v4.app.Fragment;
+
+public class IMDBMovieFragment extends Fragment {
+
+}

@@ -1559,3 +1559,82 @@ Binding(CTRL+SHIFT+\,
 
 !ENTRY com.android.ide.eclipse.adt 4 0 2014-03-12 00:34:17.790
 !MESSAGE Current file is not a match for the given config.
+!SESSION 2014-03-12 08:18:45.009 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=no_NO
+Framework arguments:  -product org.eclipse.epp.package.java.product -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.java.product -data D:\skole\android\AndroidOblig3 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2014-03-12 08:18:47.134
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:25:35.578
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:25:37.635
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 4 4 2014-03-12 08:25:38.139
+!MESSAGE Failed
+!STACK 0
+java.lang.NullPointerException
+	at com.android.tools.lint.checks.ApiDetector$ApiVisitor.checkField(ApiDetector.java:1416)
+	at com.android.tools.lint.checks.ApiDetector$ApiVisitor.visitSelect(ApiDetector.java:1296)
+	at com.android.tools.lint.client.api.JavaVisitor$DispatchVisitor.visitSelect(JavaVisitor.java:904)
+	at com.android.tools.lint.client.api.JavaVisitor$DelegatingJavaVisitor.visitSelect(JavaVisitor.java:1177)
+	at lombok.ast.Select.accept(Select.java:91)
+	at lombok.ast.VariableDefinitionEntry.accept(VariableDefinitionEntry.java:105)
+	at lombok.ast.VariableDefinition.accept(VariableDefinition.java:155)
+	at lombok.ast.VariableDeclaration.accept(VariableDeclaration.java:103)
+	at lombok.ast.NormalTypeBody.accept(NormalTypeBody.java:57)
+	at lombok.ast.ClassDeclaration.accept(ClassDeclaration.java:239)
+	at lombok.ast.CompilationUnit.accept(CompilationUnit.java:83)
+	at com.android.tools.lint.client.api.JavaVisitor.visitFile(JavaVisitor.java:219)
+	at com.android.tools.lint.client.api.LintDriver.checkIndividualJavaFiles(LintDriver.java:1568)
+	at com.android.tools.lint.client.api.LintDriver.runFileDetectors(LintDriver.java:965)
+	at com.android.tools.lint.client.api.LintDriver.checkProject(LintDriver.java:842)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:416)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:363)
+	at com.android.ide.eclipse.adt.internal.lint.LintJob.run(LintJob.java:163)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:28:51.063
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:29:08.346
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:29:09.446
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:29:37.339
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:32:27.931
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:33:22.565
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2014-03-12 08:33:22.593
+!MESSAGE Fatal error: No API database found at null
+
+!ENTRY com.android.ide.eclipse.adt 4 4 2014-03-12 08:33:22.627
+!MESSAGE Failed
+!STACK 0
+java.lang.NullPointerException
+	at com.android.ide.eclipse.adt.internal.lint.EclipseLintClient.getTargets(EclipseLintClient.java:904)
+	at com.android.tools.lint.client.api.LintClient.getHighestKnownApiLevel(LintClient.java:692)
+	at com.android.tools.lint.client.api.LintDriver$LintClientWrapper.getHighestKnownApiLevel(LintDriver.java:1920)
+	at com.android.tools.lint.checks.ManifestDetector.visitElement(ManifestDetector.java:546)
+	at com.android.tools.lint.client.api.XmlVisitor.visitElement(XmlVisitor.java:169)
+	at com.android.tools.lint.client.api.XmlVisitor.visitElement(XmlVisitor.java:205)
+	at com.android.tools.lint.client.api.XmlVisitor.visitFile(XmlVisitor.java:150)
+	at com.android.tools.lint.client.api.LintDriver.runFileDetectors(LintDriver.java:914)
+	at com.android.tools.lint.client.api.LintDriver.checkProject(LintDriver.java:842)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:416)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:363)
+	at com.android.ide.eclipse.adt.internal.lint.LintJob.run(LintJob.java:163)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)

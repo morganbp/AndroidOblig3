@@ -39,13 +39,8 @@ public class JSONMovieRequest {
 	private JSONObject jsonObject;
 	private static final String jsonUrl = "http://deanclatworthy.com/imdb/?q=";
 
-	public JSONMovieRequest(String movieSearch, Context c) {
-		try {
-			caller = (OnMovieRequestListener) c;
-		} catch (ClassCastException ex) {
-			Log.e(JSONMovieRequest.class.getName(),
-					"Context c must implement OnMovieRequestLister");
-		}
+	public JSONMovieRequest(String movieSearch, OnMovieRequestListener _caller) {
+		caller = _caller;
 		String urlText = jsonUrl + movieSearch;
 		new SearchForMovieTask().execute(urlText);
 	}

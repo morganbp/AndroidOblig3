@@ -1,84 +1,110 @@
 package no.morganbp.oblig3;
 
-import no.morganbp.oblig3.JSONMovieRequest.OnMovieRequestListener;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnMovieRequestListener {
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+
+public class MainActivity extends FragmentActivity {
 
 	public static final String EXTRA_MESSAGE = "no.morganbp.MainActivity";
-	EditText editTextSearch;
-	TextView textViewSearch;
-	Button buttonSearch;
-	JSONMovieRequest movieInfo;
-	String searchString;
-	Context c;
-	boolean loadingData = false;
+	public static boolean loadingData = false;
+
+	ActionBar actionBar;
+
+	SwipeAdapter swAdapter;
+	ViewPager swipePager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		c = this;
-		initGUI();
-	}
-
-	private void initGUI() {
-		editTextSearch = (EditText) findViewById(R.id.etSearch);
-		textViewSearch = (TextView) findViewById(R.id.tvSearchText);
-		buttonSearch = (Button) findViewById(R.id.bSearch);
-
-		buttonSearch.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				searchString = editTextSearch.getText().toString();
-				ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-				if (networkInfo != null && networkInfo.isConnected()) {
-					if (!loadingData) {
-						loadingData = true;
-						movieInfo = new JSONMovieRequest(searchString, c);
-					}
-				} else {
-					textViewSearch.setText("No Internet connection available");
-				}
-
-			}
-
-		});
-
-	}
-
-	@Override
-	public void dataLoaded() {
-		loadingData = false;
-		if(movieInfo.isSearchSuccess()){
-			Bundle b = new Bundle();
-			b.putString(JSONMovieRequest.tag_title, movieInfo.getTitle());
-			b.putString(JSONMovieRequest.tag_url, movieInfo.getURL());
-			b.putLong(JSONMovieRequest.tag_votes, movieInfo.getVotes());
-			b.putFloat(JSONMovieRequest.tag_rating, movieInfo.getRating());
-			b.putInt(JSONMovieRequest.tag_year, movieInfo.getYear());
-			b.putStringArray(JSONMovieRequest.tag_genre, movieInfo.getGenres());
-			Intent intent = new Intent(this, MovieActivity.class);
-			intent.putExtra(EXTRA_MESSAGE, b);
-			startActivity(intent);
-		}else{
-			textViewSearch.setText("No results for \"" + searchString + "\"");
+		setContentView(R.layout.swipe_view_pager);
+		swAdapter = new SwipeAdapter(getSupportFragmentManager());
+		swipePager = (ViewPager) findViewById(R.id.swipe_pager);
+		swipePager.setAdapter(swAdapter);
+		if(android.os.Build.VERSION.SDK_INT >= 11){
+			Log.d("hei","hei");
+			initActionBar();
+			
 		}
 		
+	}
+
+	private void initActionBar() {
+		
+		swipePager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int position) {
+				getActionBar().setSelectedNavigationItem(position);
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {					
+			}
+		});
+		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+			
+			@Override
+			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			}
+			
+			@Override
+			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+				swipePager.setCurrentItem(tab.getPosition());
+			}
+			
+			@Override
+			public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			}
+		};
+			
+		
+		
+		actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.addTab(actionBar.newTab().setText("IMDB movie Search").setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab().setText("Norwegian Flag").setTabListener(tabListener));
+		actionBar.show();	
 		
 	}
 
+	public class SwipeAdapter extends FragmentPagerAdapter {
+		private static final int SIZE = 2;
+
+		public SwipeAdapter(FragmentManager fm) {
+			super(fm);
+		}
+			
+		
+		
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+			case 0:
+				return new IMDBMovieFragment();
+			case 1:
+				return new FlagFragment();
+			}
+			return null;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return SIZE;
+		}
+
+	}
 }

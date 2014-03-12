@@ -1,0 +1,114 @@
+package no.morganbp.oblig3;
+
+import no.morganbp.oblig3.JSONMovieRequest.OnMovieRequestListener;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class IMDBMovieFragment extends Fragment {
+
+	EditText editTextSearch;
+	TextView textViewSearch;
+	Button buttonSearch;
+	JSONMovieRequest movieInfo;
+	String searchString;
+
+	Activity a;
+
+	private boolean loadingData = false;
+	
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		a = getActivity();
+		if(android.os.Build.VERSION.SDK_INT >= 11){
+			ViewPager vpager = (ViewPager)a.findViewById(R.id.swipe_pager);¨
+			vpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+				
+				@Override
+				public void onPageSelected(int position) {
+					a.getActionBar().setSelectedNavigationItem(position);
+				}
+				
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+				}
+				
+				@Override
+				public void onPageScrollStateChanged(int arg0) {					
+				}
+			})
+		}
+		initGUI();
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		return inflater.inflate(R.layout.fragment_imdb, container, false);
+	}
+
+	private void initGUI() {
+		editTextSearch = (EditText) a.findViewById(R.id.etSearch);
+		textViewSearch = (TextView) a.findViewById(R.id.tvSearchText);
+		buttonSearch = (Button) a.findViewById(R.id.bSearch);
+
+		buttonSearch.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				searchString = editTextSearch.getText().toString();
+				ConnectivityManager connMgr = (ConnectivityManager) a
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+				if (networkInfo != null && networkInfo.isConnected()) {
+					if (!loadingData) {
+						loadingData = true;
+						movieInfo = new JSONMovieRequest(searchString,new OnMovieRequestListener() {
+							
+							@Override
+							public void dataLoaded() {
+								loadingData = false;
+								if (movieInfo.isSearchSuccess()) {
+									Bundle b = new Bundle();
+									b.putString(JSONMovieRequest.tag_title, movieInfo.getTitle());
+									b.putString(JSONMovieRequest.tag_url, movieInfo.getURL());
+									b.putLong(JSONMovieRequest.tag_votes, movieInfo.getVotes());
+									b.putFloat(JSONMovieRequest.tag_rating, movieInfo.getRating());
+									b.putInt(JSONMovieRequest.tag_year, movieInfo.getYear());
+									b.putStringArray(JSONMovieRequest.tag_genre, movieInfo.getGenres());
+									Intent intent = new Intent(a, MovieActivity.class);
+									intent.putExtra(MainActivity.EXTRA_MESSAGE, b);
+									startActivity(intent);
+								} else {
+									textViewSearch.setText("No results for \"" + searchString + "\"");
+								}
+								
+							}
+						});
+						} 
+				}else {
+					textViewSearch.setText("No Internet connection available");
+				}
+
+				}
+
+		});
+
+	}
+}

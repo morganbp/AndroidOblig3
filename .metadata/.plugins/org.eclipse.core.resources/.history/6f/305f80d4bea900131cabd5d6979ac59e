@@ -1,0 +1,70 @@
+package no.morganbp.oblig3;
+
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class IMDBMovieFragment extends Fragment {
+
+	EditText editTextSearch;
+	TextView textViewSearch;
+	Button buttonSearch;
+	JSONMovieRequest movieInfo;
+	String searchString;
+	
+	
+	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		initGUI();
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		return inflater.inflate(R.layout.activity_main, container, false);
+	}
+
+	private void initGUI() {
+		Activity a = getActivity();
+		editTextSearch = (EditText) a.findViewById(R.id.etSearch);
+		textViewSearch = (TextView) a.findViewById(R.id.tvSearchText);
+		buttonSearch = (Button) a.findViewById(R.id.bSearch);
+
+		buttonSearch.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				searchString = editTextSearch.getText().toString();
+				ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+				if (networkInfo != null && networkInfo.isConnected()) {
+					if (!loadingData) {
+						loadingData = true;
+						movieInfo = new JSONMovieRequest(searchString, c);
+					}
+				} else {
+					textViewSearch.setText("No Internet connection available");
+				}
+
+			}
+
+		});
+
+	}
+	
+}

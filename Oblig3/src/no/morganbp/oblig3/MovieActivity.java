@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 public class MovieActivity extends Activity {
 
 	private static int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
